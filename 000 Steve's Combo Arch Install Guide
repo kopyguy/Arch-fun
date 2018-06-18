@@ -1,0 +1,91 @@
+### Installation procedures Arch Linux###
+###### Installation procedure (basic install): Use this document with the Arch linux install Guide
+
+  1. Boot the install media
+
+  2. Create a root password for the install media
+
+	'# passwd root'      You will be ask to enter a password twice.
+
+  3. Check wired internet connection to network
+
+	'# ip a'      ----> Shows ip Address        inet 192.168.1.14
+
+  4. Start ssh 
+
+	`# systemctl start sshd`
+
+  5. Connect to machine via SSH
+
+	'# ssh root@192.168.1.14'
+	'Enter root Password'
+
+  7. Visit https://www.archlinux.org/mirrorlist/ on another computer, generate mirrorlist
+  8. Edit /etc/pacman.d/mirrorlist on the Arch computer and paste the faster servers
+  9. Update package indexes: `# pacman -Syyy`
+  10. Create root partition:		Note: '# fdisk -l'  Will list current disk partitions
+
+       `# fdisk /dev/sda`
+
+          * o (to create an empty DOS partition table)
+          * n (new partition type)
+          * 1 (partion type)
+          * enter
+          * +30G
+	      * a        to make bootable partition
+          * w
+
+  11. Create home partition:
+
+      `# fdisk /dev/sda`
+
+         * n
+         * 2
+         * enter
+         * w
+
+  12. `# mkfs.ext4 /dev/sda1`
+  13. `# mkfs.ext4 /dev/sda2`
+  14. `# mount /dev/sda1 /mnt`
+  15. `# mkdir /mnt/home`
+  16. `# mount /dev/sda2 /mnt/home`
+  17. `# pacstrap -i /mnt base`
+  18. `# genfstab -U -p /mnt >> /mnt/etc/fstab`
+  19. `# arch-chroot /mnt`
+  20.  Set Time Zone:
+	  '# rm /etc/localtime
+	  '# ln -s /usr/share/zoneinfo/America/Detroit /etc/localtime
+  21. '# hwclock --systohc --utc
+  22. `# nano /etc/locale.gen` (uncomment en_US.UTF-8)   Control o saves Control x exits
+  23. `# locale-gen`
+  24.  Hostname:
+      '# nano /etc/hostname       Add your hostname to the file and save
+	  '# nano /etc/hosts          Add the following and save 
+				127.0.0.1    localhost
+				::1          Localhost
+				127.0.1.1    (MyHostname).localdomain   (MyHostname)
+  25. `# pacman -S openssh grub-bios linux-headers linux-lts linux-lts-headers`
+  26.  Internet:
+      '# pacman -S dialog network-manager-applet networkmanager networkmanager-openvpn
+  27. `# mkinitcpio -p linux`
+  28. `# mkinitcpio -p linux-lts`
+  29. `# passwd` (for setting root password)
+  30. `# grub-install --target=i386-pc --recheck /dev/sda`
+  31. `# cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
+  32. `# grub-mkconfig -o /boot/grub/grub.cfg`
+  33.  Install intel microcode:
+      '# pacman -S intel-ucode
+      '# grub-mkconfig -o /boot/grub/grub.cfg
+  34. Create swap file:
+        * `# fallocate -l 2G /swapfile`
+        * `# chmod 600 /swapfile`
+        * `# mkswap /swapfile`
+        * `# echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab'  
+
+35. `$ exit`
+  36. `# umount -a`
+  37. `# reboot`
+
+
+
+

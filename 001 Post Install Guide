@@ -1,0 +1,60 @@
+### Post install Guide ###
+###     Steve Gerst    ###
+
+1. Enable ssh service
+	# systemctl enable sshd.service	
+
+2. Install and start internet unit
+	# ip a		Is there an ip address?
+	# systemctl enable NetworkManager
+	# systemctl start NetworkManager
+	# ip a		Internet address now and at boot
+
+3. Add user to the system
+	# useradd -m -s /bin/bash steve
+	           |-----> create home directory
+	# passwd steve --> enter password twice
+
+4. Install network time protocal
+	# pacman -S ntp
+	# systemctl enable ntpd		enables but dosn't start ntp
+	# systemctl start ntpd		starts ntp
+
+5. Fix GNOME app issues:
+	# localectl set-locale LANG="en_US.UTF-8"
+
+6. Install X org server
+	# pacman -S xorg-server xorg-xinit xorg-apps mesa
+
+7. Enable 32 bit packages for pacman and archlinux.fr for yaourt
+	# nano /etc/pacman.conf       
+        Uncomment [multilib] and 
+	          Include = /etc/pacman.d/mirrorlist
+
+	Add       [archlinuxfr]
+		  SigLevel = Never
+		  Server = http://repo.archlinux.fr/$arch
+
+8. Install video driver
+	# pacman -Sy nvidia nvidia-lts lib32-nvidia-libgl 
+
+9. Install log in manager
+	# pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+	# systemctl enable lightdm
+10. Install desktop manager
+	# pacman -S xfce4 xfce4-goodies
+
+11. Install sudo
+	# pacman -S sudo
+	# visudo		edit sudoers file
+	un-comment the line `%wheel ALL=(ALL) ALL' with xx then
+	exit VI with :wq
+
+12. Add user to the wheel group to be a sudo'er
+	# usermod -aG wheel steve
+
+13. Update mirror list - this section needs work
+
+14. Thunar helper to mount removable media
+	# sudo pacman -Sy gvfs
+15.  Nvidia create

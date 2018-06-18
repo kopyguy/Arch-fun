@@ -1,0 +1,12 @@
+	# systemctl status ntpd         Checks status of ntp
+	# systemctl enable ntpd		enables but dosn't start ntp
+	# systemctl start ntpd		starts ntp
+	# systemctl stop ntpd		stops ntp
+	# systemctl restart ntpd	restarts a service after a
+					change is made
+	# systemctl list-units		lists all running units
+	# journalctl			systemd logging
+	# journalctl -b			systemd logging at boot
+	# journalctl -f			systemd logging follow the log
+	# journalctl -fu `unitd'	systemd logging follow the log
+					of a spacific unit
