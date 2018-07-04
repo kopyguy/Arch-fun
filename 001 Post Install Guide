@@ -42,7 +42,7 @@
 	# pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
 	# systemctl enable lightdm
 10. Install desktop manager
-	# pacman -S xfce4 xfce4-goodies
+	# pacman -S xfce4 xfce4-goodies gamin
 
 11. Install sudo
 	# pacman -S sudo
